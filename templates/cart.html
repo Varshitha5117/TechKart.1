@@ -1,0 +1,135 @@
+{% if user.is_authenticated %}
+  <p>Logged in as: {{ user.username }}</p>
+{% else %}
+  <p>Not logged in!</p>
+{% endif %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'images/cart-bg.png' %}");
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            margin: 50px auto;
+            max-width: 900px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+        .cart-item img {
+            width: 100px;
+            border-radius: 8px;
+        }
+        .cart-item-details {
+            flex: 1;
+            margin-left: 20px;
+        }
+        .cart-item-actions {
+            text-align: right;
+        }
+        .cart-item-actions form {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .cart-item-actions button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cart-item-actions button:hover {
+            background-color: #c82333;
+        }
+        .cart-total {
+            text-align: right;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .checkout-btn:hover {
+            background-color: #0056b3;
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Shopping Cart</h1>
+
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+            <div class="cart-item-details">
+                <h3>{{ item.product.name }}</h3>
+                <p>₹{{ item.product.price }}</p>
+
+                <form method="post" action="{% url 'update_cart' item.id %}">
+                    {% csrf_token %}
+                    <label for="quantity_{{ forloop.counter }}">Quantity:</label>
+                    <input type="number" id="quantity_{{ forloop.counter }}" name="quantity" value="{{ item.quantity }}" min="1">
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+
+            <div class="cart-item-actions">
+                <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <p>Your cart is empty.</p>
+        {% endfor %}
+
+        {% if cart_items %}
+        <div class="cart-total">
+            Total: ₹{{ total }}
+        </div>
+        <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+        {% endif %}
+    </div>
+</body>
+</html>

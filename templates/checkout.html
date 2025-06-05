@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f1f2f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-summary {
+            margin-bottom: 30px;
+        }
+
+        .cart-summary ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-summary li {
+            margin-bottom: 10px;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Checkout Page</h1>
+
+    <div class="cart-summary">
+        <ul>
+            {% for item in cart_items %}
+                <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.quantity|floatformat:2|add:"0"|add:item.product.price }}</li>
+            {% endfor %}
+        </ul>
+        <p class="total">Total: ₹{{ total }}</p>
+    </div>
+
+    <!-- Fake payment form -->
+    <form method="post" action="{% url 'process_payment' %}">
+        {% csrf_token %}
+        <input type="text" name="card_name" placeholder="Cardholder Name" required>
+        <input type="text" name="card_number" placeholder="Card Number" required>
+        <input type="text" name="expiry" placeholder="Expiry Date (MM/YY)" required>
+        <input type="number" name="cvv" placeholder="CVV" required>
+        <button type="submit">Simulate Payment</button>
+    </form>
+</div>
+</body>
+</html>

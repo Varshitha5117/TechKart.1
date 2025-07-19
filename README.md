@@ -10,9 +10,7 @@ TechKart is a modern full-stack e-commerce web application designed to provide u
 - [Tech Stack](#tech-stack)
 - [Project Architecture](#project-architecture)
 - [Installation](#installation)
-- [Screenshots](#screenshots)
 - [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -82,10 +80,26 @@ http://127.0.0.1:8000/
 
 
 
+---
+
+
+----
+## Future Enhancements
+Razorpay/Stripe payment gateway integration
+
+Product review and rating system
+
+Email notifications for orders
+
+Wishlist functionality
+
+Search autocomplete suggestions
+
+API support with Django REST Framework
 
 
 
 
-
-
+## License
+This project is open-source and available under the MIT License.
 

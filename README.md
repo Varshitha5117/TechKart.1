@@ -85,7 +85,7 @@ http://127.0.0.1:8000/
 
 
 
-<img width="1887" height="907" alt="Screenshot 2025-06-05 111927" src="https://github.com/user-attachments/assets/e3dafe6b-fef2-4b3c-b591-cd0700067eca" />
+
 
 
 
